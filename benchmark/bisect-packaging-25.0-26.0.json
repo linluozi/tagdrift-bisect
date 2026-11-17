@@ -1,0 +1,66 @@
+{
+  "repo": "/tmp/src_packaging",
+  "workload": "packaging",
+  "scale": "large",
+  "from_rev": "25.0",
+  "to_rev": "26.0",
+  "from_median": 0.33199610840529203,
+  "to_median": 0.1183929555118084,
+  "control_median": 0.3366041826084256,
+  "control_deviation": 0.013879904271372267,
+  "effective_tolerance": 0.23505295298507162,
+  "within_tag_rel_iqr": {
+    "from": 0.023643076066940626,
+    "to": 0.009945386323161038,
+    "control": 0.0783509843283572
+  },
+  "endpoint_ratio": 0.3566094677449575,
+  "direction": "speedup",
+  "status": "diffuse",
+  "commit": "39b0432b26d4b95ae9225a3c7e22c0a7c6984077",
+  "parent": "f67a11ed5ef878d727493902e1e2c16f18db10b2",
+  "parent_median": 0.1911992272362113,
+  "culprit_median": 0.1743934890255332,
+  "separation": 0.08789647559566734,
+  "attributable": false,
+  "commits_in_range": 150,
+  "probes": [
+    {
+      "commit": "28294b6bf20b5905d9ff195a80cf1e4a1943e96d",
+      "median": 0.2417100202292204,
+      "side": "baseline"
+    },
+    {
+      "commit": "1c4e8056b1c0b2efc9c68a71c7f2a1a1920db8f3",
+      "median": 0.10324932355433702,
+      "side": "changed"
+    },
+    {
+      "commit": "5de9865be26d93b726f4d85da7f8dda6480d2fb5",
+      "median": 0.12285828217864037,
+      "side": "changed"
+    },
+    {
+      "commit": "5037c9324e4ca846b903b16286acb6faac5dcee7",
+      "median": 0.15983411390334368,
+      "side": "changed"
+    },
+    {
+      "commit": "39b0432b26d4b95ae9225a3c7e22c0a7c6984077",
+      "median": 0.21311962325125933,
+      "side": "changed"
+    },
+    {
+      "commit": "f61a88bac669ab6344a77c97ee5679fe701981b6",
+      "median": 0.24653280712664127,
+      "side": "baseline"
+    },
+    {
+      "commit": "f67a11ed5ef878d727493902e1e2c16f18db10b2",
+      "median": 0.22865066584199667,
+      "side": "baseline"
+    }
+  ],
+  "builds": 12,
+  "subject": "39b0432 perf: lazily calculate `_key` in `Version` (#989)"
+}

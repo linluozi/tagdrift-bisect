@@ -1,0 +1,71 @@
+{
+  "repo": "/tmp/src_packaging",
+  "workload": "packaging",
+  "scale": "large",
+  "from_rev": "26.2",
+  "to_rev": "26.3",
+  "from_median": 0.041795394383370876,
+  "to_median": 0.012247378006577492,
+  "control_median": 0.04196212813258171,
+  "control_deviation": 0.003989285223186524,
+  "effective_tolerance": 0.12662520606389893,
+  "within_tag_rel_iqr": {
+    "from": 0.04220840202129964,
+    "to": 0.30340012358444785,
+    "control": 0.017333395595911016
+  },
+  "endpoint_ratio": 0.2930317607303247,
+  "direction": "speedup",
+  "status": "found",
+  "commit": "40d76fbedf22519d73229bc8c4c6a6dbfddea44e",
+  "parent": "ff14df979f865165553999d9d1a111feec6f4843",
+  "parent_median": 0.04168536700308323,
+  "culprit_median": 0.019827931188046932,
+  "separation": 0.5243431301305235,
+  "attributable": true,
+  "commits_in_range": 134,
+  "probes": [
+    {
+      "commit": "b61e85eafa19e247fc8161a25cdcad5e30fc5b83",
+      "median": 0.0144122876226902,
+      "side": "changed"
+    },
+    {
+      "commit": "08bb047794f4e70b157dacef4538b3a6e3492743",
+      "median": 0.019534499384462833,
+      "side": "changed"
+    },
+    {
+      "commit": "a9f77f8269d6897a3dbf28f2c0129a354478d5de",
+      "median": 0.019992380402982235,
+      "side": "changed"
+    },
+    {
+      "commit": "ff14df979f865165553999d9d1a111feec6f4843",
+      "median": 0.04211773071438074,
+      "side": "baseline"
+    },
+    {
+      "commit": "9d8f2a540702725a29978a427b9a416bf31ed964",
+      "median": 0.020087470300495625,
+      "side": "changed"
+    },
+    {
+      "commit": "ca5d8fcef371c203eb68e098ed314f1d516ae69b",
+      "median": 0.01983154658228159,
+      "side": "changed"
+    },
+    {
+      "commit": "40d76fbedf22519d73229bc8c4c6a6dbfddea44e",
+      "median": 0.019573171623051167,
+      "side": "changed"
+    }
+  ],
+  "builds": 12,
+  "subject": "40d76fb Implement Specifiers and SpecifierSets filtering using ranges (#1120)",
+  "revert": {
+    "ok": false,
+    "clean": false,
+    "reason": "git revert: t revert 40d76fb... Implement Specifiers and SpecifierSets filtering using ranges (#1120)\nhint: after resolving the conflicts, mark the corrected paths\nhint: with 'git add <paths>' or 'git rm <paths>' | git apply -R: rs.py: does not exist in index\nerror: src/packaging/specifiers.py: does not exist in index\nerror: src/packaging/_ranges.py: does not exist in index\nApplied patch to 'benchmarks/specifiers.py' cleanly."
+  }
+}

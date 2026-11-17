@@ -1,0 +1,61 @@
+{
+  "repo": "/tmp/src_tomlkit",
+  "workload": "tomlkit",
+  "scale": "medium",
+  "from_rev": "0.15.0",
+  "to_rev": "0.15.1",
+  "from_median": 0.09502782393246889,
+  "to_median": 0.05502451863139868,
+  "control_median": 0.09597532544285059,
+  "control_deviation": 0.009970779832389264,
+  "effective_tolerance": 0.31569108204333585,
+  "within_tag_rel_iqr": {
+    "from": 0.07484884478613388,
+    "to": 0.09672321038814327,
+    "control": 0.10523036068111195
+  },
+  "endpoint_ratio": 0.579035869226066,
+  "direction": "speedup",
+  "status": "diffuse",
+  "commit": "4623b450be4184517bb03a982cfe86a3cb483463",
+  "parent": "8571bcd13f0e68e454df9be8d33975b2f5acd44e",
+  "parent_median": 0.08286810107529163,
+  "culprit_median": 0.058269270695745945,
+  "separation": 0.296843176811737,
+  "attributable": false,
+  "commits_in_range": 61,
+  "probes": [
+    {
+      "commit": "483f240ea7d45bd9c82fbd16d8e63270a69770c3",
+      "median": 0.05243021994829178,
+      "side": "changed"
+    },
+    {
+      "commit": "4623b450be4184517bb03a982cfe86a3cb483463",
+      "median": 0.059419372119009495,
+      "side": "changed"
+    },
+    {
+      "commit": "5de48308e666db61f92441191e7b76045c32d9fb",
+      "median": 0.0912071606144309,
+      "side": "baseline"
+    },
+    {
+      "commit": "ce58a1dbf8692c631bd64826e60f09c45fa7fb25",
+      "median": 0.0814869524911046,
+      "side": "baseline"
+    },
+    {
+      "commit": "a1c5bd25b5686e4481b461f8eb336d3108376fb3",
+      "median": 0.08173916675150394,
+      "side": "baseline"
+    },
+    {
+      "commit": "8571bcd13f0e68e454df9be8d33975b2f5acd44e",
+      "median": 0.08217798173427582,
+      "side": "baseline"
+    }
+  ],
+  "builds": 11,
+  "subject": "4623b45 Bulk-scan single-line string bodies (#491)"
+}

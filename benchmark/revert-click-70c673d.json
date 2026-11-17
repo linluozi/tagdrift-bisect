@@ -1,0 +1,11 @@
+{
+  "ok": true,
+  "clean": false,
+  "code_only_revert": true,
+  "culprit": "70c673d37eb91ba42a129be9037caf3ebed62f3e",
+  "later_rev": "8.1.8",
+  "reverted_median": 0.04695323295891285,
+  "baseline_median": 0.04428923409432173,
+  "ratio_vs_baseline": 1.060150032373955,
+  "within_tolerance": false
+}

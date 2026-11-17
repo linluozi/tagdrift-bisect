@@ -1,0 +1,5 @@
+{
+  "ok": false,
+  "clean": false,
+  "reason": "git apply -R: flicts.\nFalling back to direct application...\nerror: patch failed: src/packaging/_ranges.py:1\nerror: src/packaging/_ranges.py: patch does not apply\nApplied patch to 'benchmarks/specifiers.py' cleanly. | git apply -R (code only): flicts.\nFalling back to direct application...\nerror: patch failed: src/packaging/_ranges.py:1\nerror: src/packaging/_ranges.py: patch does not apply\nApplied patch to 'benchmarks/specifiers.py' cleanly. | git revert: t revert 40d76fb... Implement Specifiers and SpecifierSets filtering using ranges (#1120)\nhint: after resolving the conflicts, mark the corrected paths\nhint: with 'git add <paths>' or 'git rm <paths>'"
+}
