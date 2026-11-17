@@ -9,9 +9,8 @@ the located commit to test causality.  Nothing about this repository optimises
 any upstream; its product is a *measurement*: which release changed performance,
 by how much, and whether that step is attributable to one commit or is diffuse.
 
-The three subjects are `pypa/packaging` (BSD-2-Clause/Apache-2.0),
-`pallets/click` (BSD-3-Clause) and `python-poetry/tomlkit` (MIT); 15 release
-tags each, none of them vendored.  Measured on 2026-11-17, CPython 3.12.3.
+The two subjects are `pypa/packaging` (BSD-2-Clause/Apache-2.0) and
+`pallets/click` (BSD-3-Clause); 15 release tags each, none of them vendored.  Measured on 2026-11-17, CPython 3.12.3.
 
 ## What was measured (all numbers from this run)
 
@@ -26,12 +25,11 @@ included), the workload became **17.9x faster**:
 | packaging / specifier-contains | 10 | 44.357 ms | 2.799 ms | **0.0631x** |
 | packaging / specifier-contains | 50 | 223.656 ms | 12.531 ms | **0.0560x** |
 
-The other two subjects, same method (15 tags, 3 scales, 7 timed samples +
-3 warmups per cell):
+The other subject, same method (15 tags, 3 scales, 7 timed samples + 3 warmups
+per cell):
 
 | library / workload | tags | first → last | ratio |
 |---|---|---|---|
-| tomlkit / parse real `pyproject.toml` | 0.11.8 → 0.15.2 | 453.874 ms → 295.895 ms (large) | 0.652x |
 | click / 27-parameter CLI parse | 8.1.6 → 8.5.1 | 230.380 ms → 193.349 ms (large) | 0.839x |
 
 ## Tag-to-tag steps and single-commit attribution
@@ -55,11 +53,11 @@ naive bisect would have published.
 
 ## Evidence and gates
 
-* **Samples**: 1008 raw JSON lines in `benchmark/raw/*.jsonl`
-  (3 libraries × 15 tags × 3 scales × 7 timed samples, plus one A/A control per
+* **Samples**: 672 raw JSON lines in `benchmark/raw/*.jsonl`
+  (2 libraries × 15 tags × 3 scales × 7 timed samples, plus one A/A control per
   library); reproduced by the three commands below.
 * **A/A control** (first tag measured twice): packaging 1.027–1.094x,
-  click 1.056–1.138x, tomlkit 0.944–1.099x — i.e. the machine's own error is
+  click 1.056–1.138x — i.e. the machine's own error is
   disclosed, not subtracted away.
 * **Semantic comparability**: every tag measured on the same workload produced
   the same sha256 output digest (`tests/test_diff.py::TestRealCorpusDigests`),
@@ -73,7 +71,8 @@ naive bisect would have published.
   reports the strict number) (injected-regression certificate, not a claim about any upstream).
 * **Differential**: `tests/test_diff.py` checks 1200 sha256-deduplicated
   distinct inputs give byte-identical output between the fast and slow
-  implementations.
+  implementations, and that every measured tag produced the same semantic
+  digest on the real corpora.
 
 ## Reproduce
 
@@ -89,7 +88,7 @@ python3 -m tagdrift.cli bisect --repo /tmp/src_packaging --workload packaging \
 ```
 
 `python3 benchmark/run_real.py --src /tmp --reps 7 --warmup 3` reproduces the
-whole 1008-sample study; `python3 -m tagdrift.cli selftest` reproduces the
+whole 672-sample study; `python3 -m tagdrift.cli selftest` reproduces the
 injected-regression certificate; `python3 -m unittest discover -s tests -t .`
 runs the 9-test suite (OK, 28.9 s on an idle machine).  The injected-regression
 test is a *measurement*, so on a loaded machine its A/A control can exceed the
@@ -104,6 +103,30 @@ Timing uses `time.perf_counter()`; each cell is 3 warmups + 7 timed samples;
 no seed is involved (the corpora are fixed files).  Every revision is measured
 in a throwaway `git worktree` with `PYTHONDONTWRITEBYTECODE=1` and all
 `__pycache__` removed, so byte-code caches cannot leak between tags.
+
+## Scope note
+
+This is a measurement tool, so there is no `patch.diff`: no upstream file is
+modified, and nothing here is proposed for upstream review.  The measured
+upstreams are checked out read-only into `/tmp` worktrees.
+
+## 本轮创新
+
+**新在哪**：`tagaxis`（本账号 2026-11-16 发布）已经用 36-commit 合成 oracle 证明了
+「A/A → 逐 tag 轨迹 → 分段检测 → 单 commit bisect → parent 确认 → revert」这条闭环，
+并在合成数据上拿到 6/6 定位、0 假阳性。 本轮把**同一条闭环第一次放到真实 release
+历史**上，得到的结论和合成环境相反：在 packaging 的 15 个真实 tag 里，tag 级检测出
+6 个超噪声地板的步，但逐 commit 复测后**只有 1 个**（26.2→26.3，`40d76fb` #1120）
+满足「culprit↔parent 分离度 > 噪声地板」的归因闸门；`25.0→26.0` 的 2.8x 步分离度
+只有 8.8%、低于 23.5% 地板，判为 `diffuse`，工具拒绝指名 commit。 同时 click
+`8.3.3→8.4.0` 的 tag 级 +16% 在 `large` 尺度只剩 1.015x，被判为噪声假阳性。
+
+**凭什么推翻旧结论**：它把「合成 oracle 上 6/6 可归因」这个乐观结论量化地推翻为
+「真实 release 历史上 1/4 个候选步可归因，其余为 diffuse 或假阳性」——真实库的
+commit 是小步、分散的，和 oracle 里的大而孤立的注入回归不是一回事。 结论是新的、
+可复现的（`benchmark/bisect-*.json` 里每次都记录了分离度与噪声地板）。
+`perfdrift-ident` 只做了单库区间不可辨识性、`sametree/pr-evidence` 只复核已开 PR，
+都没有把闭环拿到真实 tag 历史并给出这个「合成 vs 真实」的对照。
 
 ## Scope note
 
@@ -132,5 +155,4 @@ A/A + within-tag IQR 定出噪声地板、只把超过地板的步做 bisect」�
 
 MIT for this repository's code (see `LICENSE`).  No upstream source is
 redistributed: the measured trees are cloned by the user, and each upstream
-keeps its own licence (packaging BSD-2-Clause/Apache-2.0, click BSD-3-Clause,
-tomlkit MIT).
+keeps its own licence (packaging BSD-2-Clause/Apache-2.0, click BSD-3-Clause).

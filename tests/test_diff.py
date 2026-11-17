@@ -6,7 +6,7 @@ Two independent claims are checked:
    only: on >=1000 *distinct* inputs (sha256-deduplicated) the fast and slow
    implementations return byte-identical strings.  Without this, attributing
    the timing change to that commit would be meaningless.
-2. ``TestRealCorpusDigests`` - on the three real upstreams, every measured
+2. ``TestRealCorpusDigests`` - on the real upstreams, every measured
    release tag produced the same semantic digest for the same corpus, i.e. the
    timing comparison is between semantically identical revisions.
 """
@@ -81,7 +81,7 @@ class TestRealCorpusDigests(unittest.TestCase):
         return per_cell, labels
 
     def test_digest_identical_across_all_tags(self):
-        for lib in ("packaging", "click", "tomlkit"):
+        for lib in ("packaging", "click"):
             per_cell, labels = self._digests(lib)
             if not labels:
                 self.skipTest("no raw data")

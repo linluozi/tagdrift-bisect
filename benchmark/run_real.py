@@ -1,4 +1,4 @@
-"""Measure 3 real upstreams across >=15 release tags each.
+"""Measure 2 real upstreams across >=15 release tags each.
 
 Produces benchmark/raw/<lib>.jsonl (every timed sample) and
 benchmark/summary.json (medians, p25/p75, drift steps, noise floors).
@@ -30,12 +30,6 @@ LIBS = {
                  "8.3.1", "8.3.2", "8.3.3", "8.4.0", "8.4.1", "8.4.2", "8.5.0",
                  "8.5.1"],
         "url": "https://github.com/pallets/click",
-    },
-    "tomlkit": {
-        "tags": ["0.11.8", "0.12.0", "0.12.1", "0.12.2", "0.12.3", "0.12.4",
-                 "0.12.5", "0.13.0", "0.13.1", "0.13.2", "0.13.3", "0.14.0",
-                 "0.15.0", "0.15.1", "0.15.2"],
-        "url": "https://github.com/python-poetry/tomlkit",
     },
 }
 
