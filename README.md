@@ -78,7 +78,7 @@ naive bisect would have published.
 
 ```bash
 git clone git@github.com:linluozi/tagdrift-bisect.git && cd tagdrift-bisect
-git clone -q https://github.com/pypa/packaging /tmp/src_packaging   # or any ssh remote
+git clone -q https://github.com/pypa/packaging /tmp/src_packaging   # or: git clone git@github.com:pypa/packaging.git
 python3 -m tagdrift.cli run --repo /tmp/src_packaging --workload packaging \
     --tags 21.1,21.2,21.3,22.0,23.0,23.1,23.2,24.0,24.1,24.2,25.0,26.0,26.1,26.2,26.3 \
     --out benchmark/raw/packaging.jsonl --reps 7 --warmup 3
