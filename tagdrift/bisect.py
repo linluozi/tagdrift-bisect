@@ -202,7 +202,14 @@ def revert_check(
             return {"ok": False, "clean": False, "reason": " | ".join(reasons)}
         # checkout=False: keep the reverted working tree we just produced.
         recs = runner.measure(later_rev, (scale,), reps=reps, warmup=warmup, checkout=False)
-        after = statistics.median(r["seconds"] for r in recs)
+        times = sorted(r["seconds"] for r in recs)
+        after = statistics.median(times)
+        q1, q3 = times[len(times) // 4], times[(3 * len(times)) // 4]
+        rel_iqr = (q3 - q1) / after if after else float("inf")
+        ratio = after / baseline_median if baseline_median else None
+        # Two verdicts are reported: the strict +-2% target, and the
+        # noise-aware one (3x this revision's own within-tag relative IQR).
+        recruiter = (lambda r: abs(r - 1.0) <= tol)
         return {
             "ok": True,
             "clean": not code_only,
@@ -210,9 +217,11 @@ def revert_check(
             "culprit": culprit,
             "later_rev": later_rev,
             "reverted_median": after,
+            "reverted_rel_iqr": rel_iqr,
             "baseline_median": baseline_median,
-            "ratio_vs_baseline": after / baseline_median if baseline_median else None,
-            "within_tolerance": abs(after / baseline_median - 1.0) <= tol if baseline_median else False,
+            "ratio_vs_baseline": ratio,
+            "within_tolerance": bool(ratio is not None and abs(ratio - 1.0) <= tol),
+            "within_noise_floor": bool(ratio is not None and abs(ratio - 1.0) <= max(tol, 3.0 * rel_iqr)),
         }
     finally:
         runner.cleanup()

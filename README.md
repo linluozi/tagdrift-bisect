@@ -68,7 +68,9 @@ naive bisect would have published.
   whose commit 7 is a pure 6x timing regression; the bisect locates exactly
   that commit in <=9 measurements (<=4 binary-search probes + 5 fixed
   endpoint/control/verification runs) and the revert check returns to
-  **1.0069x** of the baseline (injected-regression certificate, not a claim about any upstream).
+  **1.0069x** of the baseline (strict +-2% gate passed on an idle machine; on a
+  loaded machine the test asserts the noise-aware gate instead and still
+  reports the strict number) (injected-regression certificate, not a claim about any upstream).
 * **Differential**: `tests/test_diff.py` checks 1200 sha256-deduplicated
   distinct inputs give byte-identical output between the fast and slow
   implementations.
