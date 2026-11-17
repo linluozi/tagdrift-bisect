@@ -89,7 +89,10 @@ python3 -m tagdrift.cli bisect --repo /tmp/src_packaging --workload packaging \
 `python3 benchmark/run_real.py --src /tmp --reps 7 --warmup 3` reproduces the
 whole 1008-sample study; `python3 -m tagdrift.cli selftest` reproduces the
 injected-regression certificate; `python3 -m unittest discover -s tests -t .`
-runs the 9-test suite (OK, 28.9 s).  No third-party dependency is required.
+runs the 9-test suite (OK, 28.9 s on an idle machine).  The injected-regression
+test is a *measurement*, so on a loaded machine its A/A control can exceed the
+noise gate; it retries up to 3 times, and `TAGDRIFT_TEST_REPS=11` makes it
+stricter.  No third-party dependency is required.
 
 ## Environment
 
